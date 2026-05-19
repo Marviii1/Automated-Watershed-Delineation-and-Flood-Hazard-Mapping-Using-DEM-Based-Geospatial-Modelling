@@ -2,7 +2,7 @@
 
 Automated Watershed Delineation, Morphometric Characterization, Structural Drainage Analysis, and Flood Hazard Mapping Using DEM-Based Geospatial Modelling.
 
-This repository is a reproducible Python-first geospatial analysis pipeline for watershed intelligence. The initial configuration is framed for the Upper Benue River Basin, Nigeria, but every path, CRS, processing threshold, ranking rule, and flood-hazard weight is controlled through YAML configuration files so the workflow can be reused for other basins.
+This repository is a reproducible Python-first geospatial analysis pipeline for Ilaje LGA, Ondo State, Nigeria. Every path, CRS, processing threshold, ranking rule, and flood-hazard weight is controlled through YAML configuration files so the workflow can still be reused for other study areas.
 
 ## Problem Statement
 
@@ -44,13 +44,13 @@ hydromorpho-flood-intelligence/
 `-- docs/                   # methodology and execution documentation
 ```
 
-## Required Datasets
+## Required Datasets for Ilaje LGA
 
 Minimum required inputs:
 
-- Study area boundary polygon: GeoPackage, Shapefile, or GeoJSON.
-- DEM raster covering the basin.
-- Outlet / pour point layer for watershed delineation.
+- Ilaje LGA study area boundary polygon: Shapefile, GeoPackage, or GeoJSON. The default path is `data/raw/boundary/ilaje_lga_boundary.shp`.
+- DEM raster covering Ilaje LGA, preferably with a small buffer beyond the boundary. The default path is `data/raw/dem/ilaje_dem.tif`.
+- Outlet / pour point layer for watershed delineation. The default path is `data/raw/outlets/ilaje_outlets.gpkg`.
 
 Optional inputs:
 
@@ -61,6 +61,8 @@ Optional inputs:
 - Roads, settlements, and population data for exposure interpretation.
 
 Update [config/data_paths.yml](config/data_paths.yml) before running.
+
+See [docs/ilaje_dataset_requirements_and_pipeline.md](docs/ilaje_dataset_requirements_and_pipeline.md) for the full dataset checklist and execution pipeline.
 
 ## Manual Execution Order
 
@@ -133,6 +135,8 @@ All factors are expected to be aligned to a common CRS, extent, transform, and r
 
 The Streamlit dashboard reads generated outputs only. It does not perform heavy GIS processing. If an output is missing, pages show clear guidance such as "Run script 10_compute_flood_hazard_index.py to generate this layer."
 
+For Streamlit Cloud deployment, commit the dashboard files, `requirements.txt`, `packages.txt`, `.streamlit/config.toml`, and whichever generated lightweight outputs you want the deployed app to display. Update `github_repo_url` in [config/project_config.yml](config/project_config.yml) after creating your GitHub repository.
+
 ## Limitations
 
 - Automated lineament extraction is treated as a semi-automated scaffold because robust structural interpretation normally requires expert review and validation.
@@ -152,4 +156,3 @@ The Streamlit dashboard reads generated outputs only. It does not perform heavy 
 ## Portfolio and Research Relevance
 
 This repository demonstrates a complete geospatial analytics workflow: terrain preprocessing, hydrologic modelling, morphometric science, structural drainage interpretation, MCDA flood susceptibility modelling, reproducible engineering practices, and interactive communication of results.
-

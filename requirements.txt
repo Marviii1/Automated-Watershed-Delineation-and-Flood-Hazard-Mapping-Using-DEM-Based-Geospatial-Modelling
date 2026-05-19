@@ -1,8 +1,7 @@
-# ── HealthAccess-Ondo: Streamlit Cloud requirements ──────────────────────────
-# Minimal set for the dashboard only.
-# The full analysis pipeline uses environment.yml (conda) on your local machine.
+# Streamlit Cloud dashboard requirements.
+# The heavy GIS processing pipeline should be run locally in your GIS/conda environment.
 
-streamlit>=1.31
+streamlit>=1.36
 geopandas>=0.14
 pandas>=2.1
 numpy>=1.26
@@ -13,3 +12,5 @@ pyogrio>=0.7
 folium>=0.15
 matplotlib>=3.8
 pyyaml>=6.0
+rasterio>=1.3
+plotly>=5.18

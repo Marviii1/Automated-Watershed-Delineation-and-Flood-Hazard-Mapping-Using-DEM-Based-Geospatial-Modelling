@@ -14,13 +14,15 @@ Do not run installation commands from this guide unless you personally decide yo
 
 ## 2. Add Input Data
 
-Place your datasets into `data/raw/` or update `config/data_paths.yml` to point to their actual locations.
+Place your datasets into `data/raw/` or update `config/data_paths.yml` to point to their actual locations. The current defaults target Ilaje LGA:
 
 Minimum required:
 
-- Boundary polygon.
-- DEM raster.
-- Outlet / pour point layer.
+- Ilaje LGA boundary polygon: `data/raw/boundary/ilaje_lga_boundary.shp`.
+- DEM raster covering the full LGA: `data/raw/dem/ilaje_dem.tif`.
+- Outlet / pour point layer: `data/raw/outlets/ilaje_outlets.gpkg`.
+
+For a shapefile boundary, keep `.shp`, `.shx`, `.dbf`, and `.prj` files together.
 
 ## 3. Review Config Files
 

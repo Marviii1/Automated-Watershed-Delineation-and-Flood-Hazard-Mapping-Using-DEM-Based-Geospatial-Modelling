@@ -80,6 +80,8 @@ def summarize_streams_by_basin(
 ) -> pd.DataFrame:
     """Summarize stream count and length within basin polygons."""
     streams = streams.copy()
+    if streams.crs is None and basins.crs is not None:
+        streams = streams.set_crs(basins.crs, allow_override=True)
     if basins.crs and streams.crs and basins.crs != streams.crs:
         streams = streams.to_crs(basins.crs)
     joined = gpd.overlay(streams, basins[[basin_id_field, "geometry"]], how="intersection")
@@ -121,10 +123,29 @@ def elevation_stats_by_basin(
     return pd.DataFrame(rows)
 
 
+def slope_stats_by_basin(
+    basins_path: str | Path,
+    slope_path: str | Path,
+    basin_id_field: str,
+) -> pd.DataFrame:
+    """Calculate average slope for each basin."""
+    basins_path = resolve_path(basins_path)
+    slope_path = resolve_path(slope_path)
+    basins = gpd.read_file(basins_path)
+    stats = zonal_stats(basins, slope_path, stats=["mean"], nodata=None)
+    return pd.DataFrame(
+        [
+            {basin_id_field: basin_id, "average_slope_degrees": stat.get("mean")}
+            for basin_id, stat in zip(basins[basin_id_field], stats)
+        ]
+    )
+
+
 def build_morphometric_table(
     basins: gpd.GeoDataFrame,
     stream_summary: pd.DataFrame,
     elevation_summary: pd.DataFrame,
+    slope_summary: pd.DataFrame | None = None,
     basin_id_field: str = "subbasin_id",
 ) -> pd.DataFrame:
     """Build a basin-level morphometric table from geometry, stream, and relief summaries."""
@@ -136,6 +157,11 @@ def build_morphometric_table(
     ).reset_index() if not stream_summary.empty else pd.DataFrame(columns=[basin_id_field])
 
     elev_lookup = elevation_summary.set_index(basin_id_field).to_dict("index") if not elevation_summary.empty else {}
+    slope_lookup = (
+        slope_summary.set_index(basin_id_field).to_dict("index")
+        if slope_summary is not None and not slope_summary.empty
+        else {}
+    )
     stream_lookup = stream_totals.set_index(basin_id_field).to_dict("index") if not stream_totals.empty else {}
 
     for _, row in basins.iterrows():
@@ -145,6 +171,7 @@ def build_morphometric_table(
         length_km = estimate_basin_length_km(row.geometry)
         stream_info = stream_lookup.get(basin_id, {})
         elev_info = elev_lookup.get(basin_id, {})
+        slope_info = slope_lookup.get(basin_id, {})
         total_length = float(stream_info.get("total_stream_length_km", 0.0) or 0.0)
         stream_count = float(stream_info.get("stream_count", 0.0) or 0.0)
         dd = drainage_density(total_length, area_km2)
@@ -172,7 +199,9 @@ def build_morphometric_table(
                 "elev_mean_m": elev_info.get("elev_mean_m", np.nan),
                 "basin_relief_m": relief_m,
                 "relief_ratio": relief_ratio(relief_km, length_km),
+                "relative_relief": safe_divide(relief_m, perimeter_km * 1000.0),
                 "ruggedness_number": ruggedness_number(relief_km, dd),
+                "average_slope_degrees": slope_info.get("average_slope_degrees", np.nan),
             }
         )
     table = pd.DataFrame(rows)
@@ -203,4 +232,3 @@ def bifurcation_ratio_by_order(stream_order_summary: pd.DataFrame, order_field: 
             }
         )
     return pd.DataFrame(rows)
-

@@ -24,7 +24,7 @@ Creates log output only. Confirms required inputs and warns about missing option
 ## Script 05: Stream Network
 
 - `data/interim/hydrology/streams_thresholded.tif`
-- `data/processed/vectors/stream_network.gpkg`
+- `data/processed/vectors/stream_network.shp`
 - `data/interim/hydrology/stream_order_strahler.tif`
 - `data/interim/hydrology/stream_order_shreve.tif`
 
@@ -78,4 +78,3 @@ Generated only when optional lineament vectors exist:
 ## Script 13: Report Assets
 
 - `outputs/reports/hydromorpho_summary_report.md`
-

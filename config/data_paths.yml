@@ -1,7 +1,7 @@
 raw:
-  study_area_boundary: "data/raw/boundary/upper_benue_boundary.gpkg"
-  dem: "data/raw/dem/upper_benue_dem.tif"
-  outlet_points: "data/raw/outlets/upper_benue_outlets.gpkg"
+  study_area_boundary: "data/raw/boundary/ilaje_lga_boundary.shp"
+  dem: "data/raw/dem/ilaje_dem.tif"
+  outlet_points: "data/raw/outlets/ilaje_outlets.gpkg"
   lulc: "data/raw/lulc/lulc.tif"
   soils: "data/raw/soils/soils.tif"
   hydrography_reference: "data/raw/hydrography_reference/reference_streams.gpkg"
@@ -11,6 +11,7 @@ raw:
   population: "data/raw/population_optional/population.tif"
 
 interim:
+  study_area_projected: "data/interim/reprojected/ilaje_lga_boundary_projected.gpkg"
   clipped_dem: "data/interim/clipped/dem_clipped.tif"
   projected_dem: "data/interim/reprojected/dem_projected.tif"
   corrected_dem: "data/interim/hydrology/dem_hydro_corrected.tif"
@@ -24,7 +25,7 @@ interim:
   aligned_factors_dir: "data/interim/aligned/flood_factors"
 
 processed:
-  streams_vector: "data/processed/vectors/stream_network.gpkg"
+  streams_vector: "data/processed/vectors/stream_network.shp"
   watershed_vector: "data/processed/vectors/watershed.gpkg"
   subbasins_vector: "data/processed/vectors/subbasins.gpkg"
   basin_morphometry_csv: "data/processed/tables/basin_morphometry.csv"
@@ -32,6 +33,10 @@ processed:
   lineament_density_raster: "data/processed/rasters/lineament_density.tif"
   lineament_stats_csv: "data/processed/tables/lineament_stats.csv"
   drainage_lineament_intersections: "data/processed/vectors/drainage_lineament_intersections.gpkg"
+  distance_to_stream_raster: "data/processed/rasters/distance_to_stream.tif"
+  drainage_density_raster: "data/processed/rasters/drainage_density.tif"
+  twi_raster: "data/processed/rasters/twi.tif"
+  spi_raster: "data/processed/rasters/spi.tif"
   fhi_continuous: "data/processed/rasters/flood_hazard_index_continuous.tif"
   fhi_classified: "data/processed/rasters/flood_hazard_index_classified.tif"
   fhi_zones_vector: "data/processed/vectors/flood_hazard_zones.gpkg"
@@ -46,4 +51,3 @@ outputs:
   charts_dir: "outputs/charts"
   reports_dir: "outputs/reports"
   logs_dir: "outputs/logs"
-

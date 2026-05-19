@@ -7,6 +7,7 @@ import argparse
 import _bootstrap  # noqa: F401
 from src.config import load_config_bundle
 from src.logging_utils import setup_logging
+from src.study_area import validate_study_area_boundary
 from src.validation import validate_optional_paths, validate_required_paths
 
 
@@ -21,10 +22,10 @@ def main() -> None:
     required = {
         "study_area_boundary": raw["study_area_boundary"],
         "dem": raw["dem"],
-        "outlet_points": raw["outlet_points"],
     }
     optional = {key: raw.get(key) for key in raw if key not in required}
     validate_required_paths(required, logger)
+    validate_study_area_boundary(raw["study_area_boundary"], logger)
     validate_optional_paths(optional, logger)
     logger.info("Input validation completed.")
 

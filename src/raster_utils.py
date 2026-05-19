@@ -137,7 +137,10 @@ def write_single_band_raster(
 def reclassify_array(array: np.ndarray, rules: list[dict], nodata: float | int | None = None) -> np.ndarray:
     """Reclassify a continuous or categorical array using ordered YAML rules."""
     result = np.full(array.shape, DEFAULT_NODATA, dtype="float32")
-    data = np.ma.filled(array, np.nan) if np.ma.isMaskedArray(array) else array.astype("float32")
+    if np.ma.isMaskedArray(array):
+        data = array.astype("float32").filled(np.nan)
+    else:
+        data = array.astype("float32")
 
     for rule in rules:
         score = float(rule["score"])
@@ -212,4 +215,3 @@ def vectorize_class_raster(
         gdf = gpd.GeoDataFrame(records, crs=src.crs)
         gdf.to_file(output_path, driver="GPKG")
     return output_path
-

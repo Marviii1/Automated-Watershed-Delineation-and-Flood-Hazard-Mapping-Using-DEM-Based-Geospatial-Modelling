@@ -1,12 +1,14 @@
 project_name: "HydroMorpho-Flood Intelligence System"
-study_area_name: "Upper Benue River Basin"
+project_subtitle: "Automated Watershed Delineation, Morphometric Characterization, Structural Drainage Analysis, and Flood Hazard Mapping Using DEM-Based Geospatial Modelling"
+study_area_name: "Ilaje Local Government Area"
 country: "Nigeria"
-default_crs_projected: "EPSG:32633"
+state: "Ondo State"
+github_repo_url: "https://github.com/your-username/hydromorpho-flood-intelligence"
+default_crs_projected: "EPSG:32631"
 default_crs_geographic: "EPSG:4326"
-basin_description: "Initial configuration for the Upper Benue River Basin, Nigeria. Replace inputs and CRS settings to reuse for other watersheds."
+basin_description: "Configured for Ilaje LGA, Ondo State, Nigeria. Use the Ilaje LGA polygon as the study-area mask and keep raw datasets large enough to cover the full LGA boundary."
 processing_mode: "manual_cli_pipeline"
 nodata:
   dem: -9999
   analysis: -9999
   classified: 0
-

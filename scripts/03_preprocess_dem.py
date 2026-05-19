@@ -40,6 +40,7 @@ def main() -> None:
         logger,
         hyd["terrain_derivatives"]["hillshade_azimuth"],
         hyd["terrain_derivatives"]["hillshade_altitude"],
+        hyd["terrain_derivatives"].get("multi_hillshade_azimuths", []),
     )
     logger.info("DEM preprocessing completed.")
 

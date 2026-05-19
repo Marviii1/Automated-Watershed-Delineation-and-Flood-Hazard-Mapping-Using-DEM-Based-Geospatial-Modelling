@@ -28,6 +28,7 @@ def generate_markdown_report(configs: dict, output_path: str | Path) -> Path:
 ## Study Area
 
 **Study area:** {project.get("study_area_name", "Not specified")}  
+**State:** {project.get("state", "Not specified")}  
 **Country:** {project.get("country", "Not specified")}  
 **Description:** {project.get("basin_description", "Not specified")}
 
@@ -51,6 +52,12 @@ The workflow clips and projects the DEM, applies hydrological conditioning, deri
 
 {table_markdown(data.get("processed", {}).get("hazard_area_summary_csv"))}
 
+## Lineament-Drainage Summary
+
+{table_markdown(data.get("processed", {}).get("lineament_stats_csv"))}
+
+Lineament outputs are interpreted as structurally influenced drainage zones or potential fracture-controlled hydrological corridors, not as direct proof of groundwater recharge.
+
 ## Sub-Basin Priority Ranking
 
 {table_markdown(data.get("processed", {}).get("subbasin_priority_csv"))}
@@ -61,4 +68,3 @@ Flood hazard classes are susceptibility indicators derived from terrain and them
 """
     output_path.write_text(content, encoding="utf-8")
     return output_path
-

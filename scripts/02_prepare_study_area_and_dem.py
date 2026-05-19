@@ -9,6 +9,7 @@ from src.config import load_config_bundle
 from src.logging_utils import setup_logging
 from src.preflight import require_existing_paths
 from src.raster_utils import clip_raster_to_vector, reproject_raster
+from src.study_area import prepare_study_area_boundary
 
 
 def main() -> None:
@@ -27,7 +28,13 @@ def main() -> None:
         "Run script 01_validate_project_inputs.py and update config/data_paths.yml.",
     )
 
-    clipped = clip_raster_to_vector(raw["dem"], raw["study_area_boundary"], interim["clipped_dem"], logger)
+    study_area = prepare_study_area_boundary(
+        raw["study_area_boundary"],
+        interim["study_area_projected"],
+        project["default_crs_projected"],
+        logger,
+    )
+    clipped = clip_raster_to_vector(raw["dem"], study_area, interim["clipped_dem"], logger)
     reproject_raster(clipped, interim["projected_dem"], project["default_crs_projected"], logger)
     logger.info("Study area DEM preparation completed.")
 

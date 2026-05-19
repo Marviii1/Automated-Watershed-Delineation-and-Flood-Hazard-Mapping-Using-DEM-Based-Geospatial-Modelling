@@ -13,8 +13,8 @@ terrain_derivatives:
   hillshade_azimuth: 315
   hillshade_altitude: 45
   multi_hillshade_azimuths: [45, 135, 225, 315]
+  curvature_enabled: false
 watershed:
   esri_pointer: false
   vectorize_watershed: true
   vectorize_subbasins: true
-

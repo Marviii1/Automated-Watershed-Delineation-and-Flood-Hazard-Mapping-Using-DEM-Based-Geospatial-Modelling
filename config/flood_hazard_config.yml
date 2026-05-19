@@ -7,22 +7,22 @@ factors:
     reclassified_output: "data/processed/rasters/factor_slope_score.tif"
     weight: 0.15
     rules:
-      - {min: 0, max: 2, score: 5}
-      - {min: 2, max: 5, score: 4}
-      - {min: 5, max: 10, score: 3}
-      - {min: 10, max: 20, score: 2}
-      - {min: 20, max: 90, score: 1}
+      - {min: 0, max: 1, score: 5}
+      - {min: 1, max: 2, score: 4}
+      - {min: 2, max: 5, score: 3}
+      - {min: 5, max: 10, score: 2}
+      - {min: 10, max: 90, score: 1}
   elevation:
     enabled: true
     source: "data/interim/hydrology/dem_hydro_corrected.tif"
     reclassified_output: "data/processed/rasters/factor_elevation_score.tif"
     weight: 0.10
     rules:
-      - {min: -100, max: 150, score: 5}
-      - {min: 150, max: 300, score: 4}
-      - {min: 300, max: 500, score: 3}
-      - {min: 500, max: 800, score: 2}
-      - {min: 800, max: 5000, score: 1}
+      - {min: -10, max: 5, score: 5}
+      - {min: 5, max: 15, score: 4}
+      - {min: 15, max: 30, score: 3}
+      - {min: 30, max: 60, score: 2}
+      - {min: 60, max: 5000, score: 1}
   flow_accumulation:
     enabled: true
     source: "data/interim/hydrology/d8_flow_accumulation_cells.tif"
@@ -30,10 +30,10 @@ factors:
     weight: 0.20
     rules:
       - {min: 0, max: 100, score: 1}
-      - {min: 100, max: 1000, score: 2}
-      - {min: 1000, max: 5000, score: 3}
-      - {min: 5000, max: 20000, score: 4}
-      - {min: 20000, max: 999999999, score: 5}
+      - {min: 100, max: 500, score: 2}
+      - {min: 500, max: 2000, score: 3}
+      - {min: 2000, max: 10000, score: 4}
+      - {min: 10000, max: 999999999, score: 5}
   distance_to_stream:
     enabled: false
     source: "data/processed/rasters/distance_to_stream.tif"
@@ -79,16 +79,21 @@ factors:
       - {min: 6, max: 8, score: 4}
       - {min: 8, max: 999, score: 5}
   lulc:
-    enabled: false
+    enabled: true
     source: "data/raw/lulc/lulc.tif"
     reclassified_output: "data/processed/rasters/factor_lulc_score.tif"
     weight: 0.10
     rules:
-      - {values: [1], score: 1}
-      - {values: [2], score: 2}
-      - {values: [3], score: 3}
-      - {values: [4], score: 4}
-      - {values: [5], score: 5}
+      # ESA WorldCover classes:
+      # 10 Tree cover, 20 Shrubland, 30 Grassland, 40 Cropland,
+      # 50 Built-up, 60 Bare/sparse vegetation, 70 Snow/ice,
+      # 80 Permanent water bodies, 90 Herbaceous wetland,
+      # 95 Mangroves, 100 Moss/lichen.
+      - {values: [10, 20], score: 2}
+      - {values: [30, 40], score: 3}
+      - {values: [50, 60], score: 4}
+      - {values: [80, 90, 95], score: 5}
+      - {values: [70, 100], score: 1}
   soils:
     enabled: false
     source: "data/raw/soils/soils.tif"
@@ -112,4 +117,3 @@ hazard_labels:
   3: "Moderate"
   4: "High"
   5: "Very High"
-

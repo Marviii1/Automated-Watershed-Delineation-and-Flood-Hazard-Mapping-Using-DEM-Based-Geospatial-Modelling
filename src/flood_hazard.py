@@ -67,6 +67,7 @@ def classify_hazard_index(
     """Classify a continuous FHI raster into hazard classes."""
     fhi, profile = read_raster_array(fhi_path, masked=True)
     classified = reclassify_array(fhi, breaks, nodata=profile.get("nodata"))
+    classified[classified == DEFAULT_NODATA] = 0
     return write_single_band_raster(output_path, classified, profile, dtype="uint8", nodata=0)
 
 
@@ -136,4 +137,3 @@ def ahp_consistency_ratio(pairwise_matrix: np.ndarray) -> dict[str, float]:
 class _NullLogger:
     def info(self, *args, **kwargs):  # noqa: D401
         pass
-

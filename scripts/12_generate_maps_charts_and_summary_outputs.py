@@ -34,11 +34,16 @@ def main() -> None:
     maybe(raster_preview, logger, interim["corrected_dem"], f"{outputs['figures_dir']}/dem_preview.png", "Corrected DEM", cmap="terrain")
     maybe(raster_preview, logger, f"{interim['terrain_dir']}/slope_degrees.tif", f"{outputs['figures_dir']}/slope_preview.png", "Slope", cmap="magma")
     maybe(raster_preview, logger, interim["flow_accumulation"], f"{outputs['figures_dir']}/flow_accumulation_preview.png", "Flow Accumulation", cmap="viridis")
+    maybe(raster_preview, logger, interim["strahler_order"], f"{outputs['maps_dir']}/stream_order_strahler.png", "Strahler Stream Order", cmap="viridis")
     maybe(vector_map, logger, processed["streams_vector"], f"{outputs['maps_dir']}/stream_network.png", "Stream Network")
+    maybe(vector_map, logger, processed["watershed_vector"], f"{outputs['maps_dir']}/watershed.png", "Watershed")
     maybe(vector_map, logger, processed["subbasins_vector"], f"{outputs['maps_dir']}/subbasins.png", "Sub-Basins")
+    maybe(raster_preview, logger, processed["drainage_density_raster"], f"{outputs['maps_dir']}/drainage_density.png", "Drainage Density", cmap="YlGnBu")
+    maybe(raster_preview, logger, processed["lineament_density_raster"], f"{outputs['maps_dir']}/lineament_density.png", "Lineament Density", cmap="inferno")
     maybe(raster_preview, logger, processed["fhi_classified"], f"{outputs['maps_dir']}/flood_hazard_index.png", "Flood Hazard Index", cmap="RdYlBu_r")
     maybe(vector_map, logger, processed["subbasin_priority_gpkg"], f"{outputs['maps_dir']}/subbasin_priority.png", "Sub-Basin Priority", column="priority_class")
     maybe(bar_chart, logger, processed["hazard_area_summary_csv"], "hazard_label", "area_km2", f"{outputs['charts_dir']}/hazard_area_bar.png", "Hazard Class Area")
+    maybe(bar_chart, logger, processed["subbasin_morphometry_csv"], "subbasin_id", "drainage_density_km_per_km2", f"{outputs['charts_dir']}/drainage_density_by_subbasin.png", "Drainage Density by Sub-Basin")
     logger.info("Map and chart generation completed.")
 
 

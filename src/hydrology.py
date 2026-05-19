@@ -55,8 +55,9 @@ def terrain_derivatives(
     logger: logging.Logger,
     hillshade_azimuth: float = 315.0,
     hillshade_altitude: float = 45.0,
+    multi_hillshade_azimuths: list[float] | None = None,
 ) -> dict[str, Path]:
-    """Generate slope, aspect, and hillshade rasters."""
+    """Generate slope, aspect, hillshade, and optional multi-azimuth hillshades."""
     dem_path = resolve_path(dem_path)
     output_dir = resolve_path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -74,6 +75,15 @@ def terrain_derivatives(
         azimuth=hillshade_azimuth,
         altitude=hillshade_altitude,
     )
+    for azimuth in multi_hillshade_azimuths or []:
+        key = f"hillshade_{int(azimuth)}"
+        outputs[key] = output_dir / f"hillshade_{int(azimuth)}.tif"
+        wbt.hillshade(
+            str(dem_path),
+            str(outputs[key]),
+            azimuth=float(azimuth),
+            altitude=hillshade_altitude,
+        )
     logger.info("Terrain derivatives written to %s", output_dir)
     return outputs
 
@@ -177,3 +187,26 @@ def delineate_watershed(
     logger.info("Watershed raster written: %s", output_raster)
     return output_raster
 
+
+def snap_pour_points(
+    pour_points_raster: str | Path,
+    accumulation_raster: str | Path,
+    output_raster: str | Path,
+    snap_distance: float,
+    working_dir: str | Path,
+    logger: logging.Logger,
+) -> Path:
+    """Snap pour points to nearby high-flow-accumulation cells."""
+    pour_points_raster = resolve_path(pour_points_raster)
+    accumulation_raster = resolve_path(accumulation_raster)
+    output_raster = resolve_path(output_raster)
+    output_raster.parent.mkdir(parents=True, exist_ok=True)
+    wbt = get_whitebox(working_dir)
+    wbt.snap_pour_points(
+        str(pour_points_raster),
+        str(accumulation_raster),
+        str(output_raster),
+        snap_distance,
+    )
+    logger.info("Snapped pour point raster written: %s", output_raster)
+    return output_raster
