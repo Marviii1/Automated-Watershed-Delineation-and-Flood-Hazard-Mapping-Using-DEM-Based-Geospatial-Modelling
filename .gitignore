@@ -19,10 +19,41 @@ venv/
 *.lock
 
 outputs/logs/*.log
+
+# Keep raw source data local unless a small sample is intentionally added.
 data/raw/**/*
 !data/raw/**/.gitkeep
-data/interim/**/*
-!data/interim/**/.gitkeep
-data/processed/**/*
-!data/processed/**/.gitkeep
 
+# Raster products are heavy and should not be committed to Git/Streamlit Cloud.
+*.tif
+*.tiff
+*.img
+*.vrt
+*.bil
+*.bip
+*.bsq
+*.adf
+*.grd
+
+# Allow lightweight dashboard/report artifacts and vector outputs.
+!outputs/**/*.png
+!outputs/**/*.jpg
+!outputs/**/*.jpeg
+!outputs/**/*.svg
+!outputs/**/*.html
+!outputs/**/*.md
+!data/interim/**/.gitkeep
+!data/processed/**/.gitkeep
+!data/processed/**/*.gpkg
+!data/processed/**/*.geojson
+!data/processed/**/*.csv
+!data/processed/**/*.png
+!data/processed/**/*.jpg
+!data/processed/**/*.jpeg
+!data/processed/**/*.svg
+
+# Shapefiles are many sidecar files; prefer GeoPackage for uploadable dashboard layers.
+data/**/*.shp
+data/**/*.shx
+data/**/*.dbf
+data/**/*.prj
