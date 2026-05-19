@@ -1,0 +1,15 @@
+# ── HealthAccess-Ondo: Streamlit Cloud requirements ──────────────────────────
+# Minimal set for the dashboard only.
+# The full analysis pipeline uses environment.yml (conda) on your local machine.
+
+streamlit>=1.31
+geopandas>=0.14
+pandas>=2.1
+numpy>=1.26
+shapely>=2.0
+pyproj>=3.6
+fiona>=1.9
+pyogrio>=0.7
+folium>=0.15
+matplotlib>=3.8
+pyyaml>=6.0

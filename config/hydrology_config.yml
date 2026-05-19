@@ -1,0 +1,20 @@
+dem_preprocessing_method: "breach"
+flow_model: "d8"
+stream_extraction_threshold_cells: 1000
+snap_pour_points: true
+snap_distance: 150
+stream_order_methods:
+  - "strahler"
+  - "shreve"
+whitebox:
+  working_dir: "data/interim/hydrology"
+  verbose: false
+terrain_derivatives:
+  hillshade_azimuth: 315
+  hillshade_altitude: 45
+  multi_hillshade_azimuths: [45, 135, 225, 315]
+watershed:
+  esri_pointer: false
+  vectorize_watershed: true
+  vectorize_subbasins: true
+

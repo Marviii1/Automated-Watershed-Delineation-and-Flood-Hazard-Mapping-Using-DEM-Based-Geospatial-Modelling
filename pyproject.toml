@@ -1,0 +1,15 @@
+[project]
+name = "hydromorpho-flood-intelligence"
+version = "0.1.0"
+description = "Reusable DEM-based watershed morphometry and flood hazard modelling pipeline."
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+

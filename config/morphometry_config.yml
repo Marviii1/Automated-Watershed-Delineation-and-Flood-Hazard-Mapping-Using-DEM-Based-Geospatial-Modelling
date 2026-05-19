@@ -1,0 +1,32 @@
+basin_id_field: "subbasin_id"
+stream_order_field: "stream_order"
+selected_metrics:
+  linear:
+    - stream_order
+    - number_of_streams_per_order
+    - total_stream_length_per_order
+    - mean_stream_length
+    - bifurcation_ratio
+  areal:
+    - area
+    - perimeter
+    - drainage_density
+    - stream_frequency
+    - drainage_texture
+    - form_factor
+    - circularity_ratio
+    - elongation_ratio
+    - infiltration_number
+  relief:
+    - basin_relief
+    - relief_ratio
+    - relative_relief
+    - ruggedness_number
+    - average_slope
+    - elevation_minimum
+    - elevation_maximum
+ranking_interpretation:
+  fast_runoff_tendency: "Higher drainage density, stream frequency, slope, and compactness suggest faster hydrologic response."
+  flash_flood_proxy: "Composite proxy only; validate using observed flood data where available."
+  compactness_response_proxy: "Higher circularity and form factor can indicate shorter concentration time."
+

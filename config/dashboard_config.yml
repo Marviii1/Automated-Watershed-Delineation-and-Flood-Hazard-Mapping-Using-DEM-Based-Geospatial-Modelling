@@ -1,0 +1,20 @@
+title: "HydroMorpho-Flood Intelligence Dashboard"
+subtitle: "Upper Benue River Basin, Nigeria"
+default_map:
+  center: [9.5, 12.5]
+  zoom: 7
+layers:
+  watershed: "data/processed/vectors/watershed.gpkg"
+  subbasins: "data/processed/vectors/subbasins.gpkg"
+  streams: "data/processed/vectors/stream_network.gpkg"
+  lineaments: "data/raw/lineaments_optional/lineaments.gpkg"
+  flood_hazard: "data/processed/rasters/flood_hazard_index_classified.tif"
+  priority: "data/processed/vectors/subbasin_priority_ranking.gpkg"
+tables:
+  morphometry: "data/processed/tables/subbasin_morphometry.csv"
+  hazard_area: "data/processed/tables/hazard_area_summary.csv"
+  hazard_subbasin: "data/processed/tables/hazard_subbasin_summary.csv"
+  priority: "data/processed/tables/subbasin_priority_ranking.csv"
+project_text:
+  home_summary: "Explore DEM-derived hydrology, morphometry, structural drainage interpretation, flood hazard, and sub-basin priority outputs."
+

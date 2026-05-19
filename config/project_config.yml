@@ -1,0 +1,12 @@
+project_name: "HydroMorpho-Flood Intelligence System"
+study_area_name: "Upper Benue River Basin"
+country: "Nigeria"
+default_crs_projected: "EPSG:32633"
+default_crs_geographic: "EPSG:4326"
+basin_description: "Initial configuration for the Upper Benue River Basin, Nigeria. Replace inputs and CRS settings to reuse for other watersheds."
+processing_mode: "manual_cli_pipeline"
+nodata:
+  dem: -9999
+  analysis: -9999
+  classified: 0
+
