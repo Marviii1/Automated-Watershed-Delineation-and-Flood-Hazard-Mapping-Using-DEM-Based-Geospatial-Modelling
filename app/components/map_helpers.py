@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import base64
+import json
 from io import BytesIO
 from pathlib import Path
 
@@ -25,6 +26,27 @@ from src.config import resolve_path
 
 def _path(path_value: str | Path | None) -> Path | None:
     return resolve_path(path_value)
+
+
+def _vector_fallback(path: Path) -> Path:
+    if path.exists():
+        return path
+    if path.suffix.lower() == ".shp":
+        gpkg = path.with_suffix(".gpkg")
+        if gpkg.exists():
+            return gpkg
+    return path
+
+
+def _dashboard_overlay_path(path: Path) -> tuple[Path, Path]:
+    overlay_dir = resolve_path("data/processed/dashboard_layers")
+    stem = path.stem
+    return overlay_dir / f"{stem}.png", overlay_dir / f"{stem}.json"
+
+
+def _png_data_url(path: Path) -> str:
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
 
 
 def _project_crs(configs: dict) -> str:
@@ -69,6 +91,8 @@ def add_vector_layer(
 ) -> bool:
     """Add a vector layer to a Folium map."""
     path = _path(path_value)
+    if path:
+        path = _vector_fallback(path)
     if not path or not path.exists():
         return False
     try:
@@ -145,6 +169,23 @@ def add_raster_overlay(
     """Add a raster as a Folium image overlay."""
     path = _path(path_value)
     if not path or not path.exists():
+        if path:
+            png_path, meta_path = _dashboard_overlay_path(path)
+            if png_path.exists() and meta_path.exists():
+                try:
+                    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+                    folium.raster_layers.ImageOverlay(
+                        image=_png_data_url(png_path),
+                        bounds=meta["bounds"],
+                        name=name,
+                        opacity=opacity,
+                        interactive=True,
+                        cross_origin=False,
+                        zindex=1,
+                    ).add_to(m)
+                    return True
+                except Exception as exc:
+                    st.warning(f"Could not add PNG overlay {name}: {exc}")
         return False
     try:
         image_url, bounds = _raster_to_data_url(path, cmap)
@@ -258,6 +299,8 @@ def _cmap_for_label(label: str, cmap: str, valid_values: np.ndarray):
 def show_static_raster(path_value: str | Path | None, label: str, cmap: str = "viridis") -> None:
     """Render a cartographic static raster map."""
     path = _path(path_value)
+    if path:
+        path = _vector_fallback(path)
     if not path or not path.exists():
         st.info(f"{label} has not been generated yet.")
         return
@@ -382,6 +425,8 @@ def show_raster_status(path_value: str, label: str, script_hint: str) -> None:
 def show_vector_layer(path_value: str, label: str) -> None:
     """Display vector metadata."""
     path = _path(path_value)
+    if path:
+        path = _vector_fallback(path)
     if not path or not path.exists():
         st.info(f"Run the relevant processing script to generate {label}.")
         return

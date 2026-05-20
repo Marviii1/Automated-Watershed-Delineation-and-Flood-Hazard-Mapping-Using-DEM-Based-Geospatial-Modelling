@@ -25,6 +25,7 @@ interim:
   aligned_factors_dir: "data/interim/aligned/flood_factors"
 
 processed:
+  dashboard_layers_dir: "data/processed/dashboard_layers"
   streams_vector: "data/processed/vectors/stream_network.shp"
   watershed_vector: "data/processed/vectors/watershed.gpkg"
   subbasins_vector: "data/processed/vectors/subbasins.gpkg"

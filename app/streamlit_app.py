@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-import app._bootstrap  # noqa: F401
+import _bootstrap  # noqa: F401
 from app.components.chart_helpers import bar_chart, heatmap, scatter_chart
 from app.components.map_helpers import (
     add_raster_overlay,

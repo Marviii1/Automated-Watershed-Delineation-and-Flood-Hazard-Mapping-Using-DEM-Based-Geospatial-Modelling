@@ -44,6 +44,7 @@ data/raw/**/*
 !outputs/**/*.md
 !data/interim/**/.gitkeep
 !data/processed/**/.gitkeep
+!data/processed/dashboard_layers/**/*.json
 !data/processed/**/*.gpkg
 !data/processed/**/*.geojson
 !data/processed/**/*.csv
