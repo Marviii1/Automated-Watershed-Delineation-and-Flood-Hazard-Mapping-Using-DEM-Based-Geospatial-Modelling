@@ -35,6 +35,16 @@ data/raw/**/*
 *.adf
 *.grd
 
+# This project deploys the Ilaje dashboard with its generated analysis rasters.
+# Keep the ignore default above, then explicitly upload only the current study-area products.
+!data/raw/lulc/
+!data/raw/lulc/lulc.tif
+!data/raw/outlets/
+!data/raw/outlets/*.gpkg
+!data/interim/**/*.tif
+!data/interim/**/*.gpkg
+!data/processed/rasters/**/*.tif
+
 # Allow lightweight dashboard/report artifacts and vector outputs.
 !outputs/**/*.png
 !outputs/**/*.jpg
