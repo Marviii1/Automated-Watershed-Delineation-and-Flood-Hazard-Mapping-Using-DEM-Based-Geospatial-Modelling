@@ -9,7 +9,7 @@ import plotly.express as px
 import streamlit as st
 
 import _bootstrap  # noqa: F401
-from app.components.chart_helpers import bar_chart, heatmap, scatter_chart
+from app.components.chart_helpers import apply_chart_theme, bar_chart, heatmap, scatter_chart
 from app.components.map_helpers import (
     add_raster_overlay,
     add_vector_layer,
@@ -145,9 +145,9 @@ def weights_chart() -> None:
         template="plotly_dark",
         color_discrete_sequence=["#1f9d78"],
     )
-    fig.update_traces(textposition="outside")
-    fig.update_layout(paper_bgcolor="#070b10", plot_bgcolor="#0e1621", font_color="#e8f0fb")
-    st.plotly_chart(fig, use_container_width=True)
+    fig.update_traces(textposition="outside", textfont_color="#e8f0fb")
+    apply_chart_theme(fig)
+    st.plotly_chart(fig, use_container_width=True, theme=None)
 
 
 def section_overview() -> None:
@@ -175,9 +175,9 @@ def section_overview() -> None:
                 title="Area by flood hazard class",
                 template="plotly_dark",
             )
-            fig.update_traces(textposition="outside")
-            fig.update_layout(paper_bgcolor="#070b10", plot_bgcolor="#0e1621", font_color="#e8f0fb")
-            st.plotly_chart(fig, use_container_width=True)
+            fig.update_traces(textposition="outside", textfont_color="#e8f0fb")
+            apply_chart_theme(fig)
+            st.plotly_chart(fig, use_container_width=True, theme=None)
         else:
             st.info("Run scripts 09 and 10 to generate flood hazard statistics.")
     with right:
