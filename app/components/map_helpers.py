@@ -352,6 +352,15 @@ def show_static_raster(path_value: str | Path | None, label: str, cmap: str = "v
         st.warning(f"Could not render {label}: {exc}")
 
 
+def show_static_png(path_value: str | Path | None, label: str) -> None:
+    """Render a committed PNG map asset for Streamlit Cloud."""
+    path = _path(path_value)
+    if not path or not path.exists():
+        st.info(f"{label} has not been generated yet.")
+        return
+    st.image(str(path), caption=label, use_container_width=True)
+
+
 def show_static_vector_map(
     path_value: str | Path | None,
     label: str,
@@ -361,6 +370,8 @@ def show_static_vector_map(
 ) -> None:
     """Render a cartographic static vector map."""
     path = _path(path_value)
+    if path:
+        path = _vector_fallback(path)
     if not path or not path.exists():
         st.info(f"{label} has not been generated yet.")
         return

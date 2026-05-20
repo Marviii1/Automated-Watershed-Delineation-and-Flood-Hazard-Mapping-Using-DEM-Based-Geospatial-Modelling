@@ -15,6 +15,7 @@ from app.components.map_helpers import (
     add_vector_layer,
     empty_map,
     render_map,
+    show_static_png,
     show_static_raster,
     show_static_vector_map,
 )
@@ -219,45 +220,35 @@ def section_interactive_maps() -> None:
 def section_static_maps() -> None:
     st.markdown("# Static Maps")
     st.caption("Report-ready previews for terrain, hydrology, flood hazard, and priority outputs.")
-    tabs = st.tabs(["Terrain", "Hydrology", "Hazard", "Priority", "Factors"])
+    tabs = st.tabs(["Terrain", "Hydrology", "Hazard", "Priority"])
     with tabs[0]:
         cols = st.columns(3)
         with cols[0]:
-            show_static_raster(interim["corrected_dem"], "Corrected DEM", "terrain")
+            show_static_png("outputs/figures/dem_preview.png", "Corrected DEM")
         with cols[1]:
             show_static_raster(f"{interim['terrain_dir']}/hillshade.tif", "Hillshade", "gray")
         with cols[2]:
-            show_static_raster(f"{interim['terrain_dir']}/slope_degrees.tif", "Slope", "magma")
+            show_static_png("outputs/figures/slope_preview.png", "Slope")
     with tabs[1]:
         cols = st.columns(3)
         with cols[0]:
-            show_static_raster(interim["flow_accumulation"], "Flow Accumulation", "viridis")
+            show_static_png("outputs/figures/flow_accumulation_preview.png", "Flow Accumulation")
         with cols[1]:
-            show_static_raster(interim["stream_raster"], "Stream Raster", "Blues")
+            show_static_png("outputs/maps/stream_network.png", "Stream Network")
         with cols[2]:
-            show_static_vector_map(processed["streams_vector"], "Stream Network", project_crs, color="#38bdf8")
+            show_static_png("outputs/maps/stream_order_strahler.png", "Strahler Stream Order")
     with tabs[2]:
         cols = st.columns(2)
         with cols[0]:
-            show_static_raster(processed["fhi_continuous"], "Continuous Flood Hazard Index", "inferno")
+            show_static_png("outputs/maps/flood_hazard_index.png", "Flood Hazard Index")
         with cols[1]:
-            show_static_raster(processed["fhi_classified"], "Classified Flood Hazard", "RdYlBu_r")
+            show_static_vector_map(processed["fhi_zones_vector"], "Flood Hazard Zones", project_crs, column="hazard_class")
     with tabs[3]:
         cols = st.columns(2)
         with cols[0]:
-            show_static_vector_map(processed["subbasins_vector"], "Sub-Basins", project_crs, color="#22c55e")
+            show_static_png("outputs/maps/subbasins.png", "Sub-Basins")
         with cols[1]:
-            show_static_vector_map(processed["subbasin_priority_gpkg"], "Sub-Basin Priority", project_crs, column="priority_score")
-    with tabs[4]:
-        cols = st.columns(4)
-        with cols[0]:
-            show_static_raster("data/processed/rasters/factor_slope_score.tif", "Slope Score", "magma")
-        with cols[1]:
-            show_static_raster("data/processed/rasters/factor_elevation_score.tif", "Elevation Score", "terrain")
-        with cols[2]:
-            show_static_raster("data/processed/rasters/factor_flow_accumulation_score.tif", "Flow Accumulation Score", "viridis")
-        with cols[3]:
-            show_static_raster("data/processed/rasters/factor_lulc_score.tif", "ESA WorldCover Score", "YlGn")
+            show_static_png("outputs/maps/subbasin_priority.png", "Sub-Basin Priority")
 
 
 def section_data() -> None:
@@ -286,14 +277,15 @@ def section_hydrology() -> None:
     add_raster_overlay(m, interim["flow_accumulation"], "Flow accumulation", "viridis", 0.7)
     add_raster_overlay(m, interim["strahler_order"], "Strahler order", "plasma", 0.6)
     add_vector_layer(m, processed["streams_vector"], "Stream network", "#38bdf8", weight=2, fill_opacity=0, project_crs=project_crs)
+    add_vector_layer(m, processed["watershed_vector"], "Watershed", "#facc15", weight=3, fill_opacity=0.03, project_crs=project_crs)
     render_map(m, height=620)
     cols = st.columns(3)
     with cols[0]:
-        show_static_raster(interim["corrected_dem"], "Corrected DEM", "terrain")
+        show_static_png("outputs/figures/dem_preview.png", "Corrected DEM")
     with cols[1]:
-        show_static_raster(interim["flow_accumulation"], "Flow Accumulation", "viridis")
+        show_static_png("outputs/figures/flow_accumulation_preview.png", "Flow Accumulation")
     with cols[2]:
-        show_static_raster(interim["strahler_order"], "Strahler Order", "plasma")
+        show_static_png("outputs/maps/stream_order_strahler.png", "Strahler Order")
 
 
 def section_morphometry() -> None:

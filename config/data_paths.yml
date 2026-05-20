@@ -26,7 +26,7 @@ interim:
 
 processed:
   dashboard_layers_dir: "data/processed/dashboard_layers"
-  streams_vector: "data/processed/vectors/stream_network.shp"
+  streams_vector: "data/processed/vectors/stream_network.gpkg"
   watershed_vector: "data/processed/vectors/watershed.gpkg"
   subbasins_vector: "data/processed/vectors/subbasins.gpkg"
   basin_morphometry_csv: "data/processed/tables/basin_morphometry.csv"
